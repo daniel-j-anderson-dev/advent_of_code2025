@@ -10,10 +10,6 @@ const INPUT: &str = include_str!("../input/day1.txt");
 const DIAL_START: i32 = 50;
 const DIAL_SIZE: i32 = 100;
 
-fn apply_rotation(dial_position: i32, offset: i32) -> i32 {
-    (dial_position + offset).rem_euclid(DIAL_SIZE)
-}
-
 fn floor_division(numerator: i32, denominator: i32) -> i32 {
     (numerator as f32 / denominator as f32).floor() as _
 }
