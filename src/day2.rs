@@ -17,7 +17,7 @@ fn parse_input(input: &str) -> impl Iterator<Item = (usize, usize)> {
     })
 }
 
-fn is_valid(id: &usize) -> bool {
+fn is_invalid(id: &usize) -> bool {
     let id = id.to_string();
     let len = id.len();
     if len % 2 != 0 {
@@ -34,7 +34,7 @@ fn solution(part: Puzzle, input: &str) -> usize {
     // part1
     parse_input(input)
         .flat_map(|(start, end)| start..end)
-        .filter(is_valid)
+        .filter(is_invalid)
         .sum()
 }
 
