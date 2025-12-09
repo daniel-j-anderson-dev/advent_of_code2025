@@ -1,0 +1,1 @@
+const INPUT: &str = include_str!("../input/day3.txt");
