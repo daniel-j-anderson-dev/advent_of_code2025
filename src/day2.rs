@@ -39,16 +39,8 @@ fn repeats_at_least_once<T: Eq>(id: impl AsRef<[T]>) -> bool {
     let mut patterns = (1..=id.len() / 2).filter_map(|pattern_length| {
         (id.len() % pattern_length == 0).then(|| &id[..pattern_length])
     });
-
-    patterns.any(|pattern| {
-        let mut chunks = (0..id.len() / pattern.len()).map(|chunk_index| {
-            let start = chunk_index * pattern.len();
-            let end = start + pattern.len();
-            &id[start..end]
-        });
-
-        chunks.all(|chunk| chunk == pattern)
-    })
+    
+    patterns.any(|pattern| id.chunks(pattern.len()).all(|chunk| chunk == pattern))
 }
 
 fn solution(part: Part, input: &str) -> usize {
