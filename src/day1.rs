@@ -1,6 +1,6 @@
-use crate::{Part1, Part2, Puzzle};
+use crate::{Part1, Part2, Part};
 
-const fn expected(part: Puzzle) -> i32 {
+const fn expected(part: Part) -> i32 {
     match part {
         Part1 => 1152,
         Part2 => 6671,
@@ -23,7 +23,7 @@ fn zero_crosses(dial_position: i32, offset: i32) -> i32 {
     }
 }
 
-fn solution(part: Puzzle, input: &str) -> i32 {
+fn solution(part: Part, input: &str) -> i32 {
     input
         .lines()
         .filter_map(|line| match line.split_at_checked(1) {

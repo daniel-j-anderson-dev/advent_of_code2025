@@ -4,8 +4,8 @@ pub mod day2;
 pub type Error = Box<dyn core::error::Error>;
 
 #[derive(Debug, Clone, Copy)]
-pub enum Puzzle {
+pub enum Part {
     Part1,
-    Part2
+    Part2,
 }
-pub use Puzzle::*;
+pub use Part::*;
