@@ -1,6 +1,12 @@
-use crate::Min;
+use crate::{Min, Part, Part1, Part2};
 
 const INPUT: &str = include_str!("../input/day3.txt");
+const fn expected(part: Part) -> usize {
+    match part {
+        Part1 => 17427,
+        Part2 => todo!(),
+    }
+}
 
 #[derive(Debug, Clone, Copy)]
 struct Battery {
@@ -29,7 +35,7 @@ impl PartialOrd for Battery {
     }
 }
 
-fn parse_input<'a>(input: &'a str) -> impl Iterator<Item = impl Iterator<Item = Battery>> {
+fn parse_input<'a>(input: &'a str) -> impl Iterator<Item = impl Iterator<Item = Battery> + Clone> {
     input.lines().map(|line| {
         line.bytes().enumerate().filter_map(|(index, b)| {
             Some(Battery {
@@ -58,15 +64,30 @@ fn two_largest<T: PartialOrd + Min>(iterator: impl Iterator<Item = T>) -> [T; 2]
     })
 }
 
-#[test]
-fn solution1() {
-    let part1_solution = parse_input(INPUT)
-        .map(|bank| {
-            let [a, b] = two_largest(bank);
-            let largest = if a.index < b.index { [a, b] } else { [b, a] };
-            construct_two_digit_number(largest)
-        })
-        .sum::<usize>();
+fn pairs<T: Copy>(i: impl Iterator<Item = T> + Clone) -> impl Iterator<Item = [T; 2]> {
+    i.clone().flat_map(move |a| i.clone().map(move |b| [a, b]))
+}
 
-    assert!(part1_solution > 17236, "{} is not >\n17236", part1_solution);
+fn is_sorted_by_index(&[a, b]: &[Battery; 2]) -> bool {
+    a.index < b.index
+}
+
+fn solution(part: Part, input: &str) -> usize {
+    match part {
+        Part1 => parse_input(input)
+            .map(|bank| {
+                pairs(bank)
+                    .filter(is_sorted_by_index)
+                    .map(construct_two_digit_number)
+                    .max()
+                    .unwrap_or_default()
+            })
+            .sum::<usize>(),
+        Part2 => todo!(),
+    }
+}
+
+#[test]
+fn part1() {
+    assert_eq!(solution(Part1, INPUT), expected(Part1));
 }
